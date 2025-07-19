@@ -1,0 +1,22 @@
+{"level":"info","message":"Commit Tag: $GIT_SHA","timestamp":"2024-10-03T06:48:47.607Z"}
+{"level":"info","message":"Starting Overseerr version 1.9.2","timestamp":"2024-10-03T06:48:47.923Z"}
+{"label":"Notifications","level":"info","message":"Registered notification agents","timestamp":"2024-10-03T06:48:48.775Z"}
+{"label":"Server","level":"info","message":"Skipping starting the scheduled jobs as we have no Plex/Jellyfin/Emby servers setup yet","timestamp":"2024-10-03T06:48:48.779Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":0,"type":1},"timestamp":"2024-10-03T06:48:48.782Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":1,"type":2},"timestamp":"2024-10-03T06:48:48.791Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":2,"type":3},"timestamp":"2024-10-03T06:48:48.799Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":3,"type":4},"timestamp":"2024-10-03T06:48:48.805Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":4,"type":5},"timestamp":"2024-10-03T06:48:48.814Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":5,"type":6},"timestamp":"2024-10-03T06:48:48.820Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":6,"type":7},"timestamp":"2024-10-03T06:48:48.827Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":7,"type":8},"timestamp":"2024-10-03T06:48:48.831Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":8,"type":9},"timestamp":"2024-10-03T06:48:48.834Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":9,"type":10},"timestamp":"2024-10-03T06:48:48.840Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":10,"type":11},"timestamp":"2024-10-03T06:48:48.846Z"}
+{"label":"Discover Slider","level":"info","message":"Creating built-in discovery slider","slider":{"enabled":true,"isBuiltIn":true,"order":11,"type":12},"timestamp":"2024-10-03T06:48:48.850Z"}
+{"label":"Server","level":"info","message":"Server ready on port 5055","timestamp":"2024-10-03T06:48:48.954Z"}
+{"level":"info","message":"Commit Tag: $GIT_SHA","timestamp":"2024-10-03T06:51:49.660Z"}
+{"level":"info","message":"Starting Overseerr version 1.9.2","timestamp":"2024-10-03T06:51:49.897Z"}
+{"label":"Notifications","level":"info","message":"Registered notification agents","timestamp":"2024-10-03T06:51:50.437Z"}
+{"label":"Server","level":"info","message":"Skipping starting the scheduled jobs as we have no Plex/Jellyfin/Emby servers setup yet","timestamp":"2024-10-03T06:51:50.439Z"}
+{"label":"Server","level":"info","message":"Server ready on port 5055","timestamp":"2024-10-03T06:51:50.507Z"}

@@ -1,0 +1,22 @@
+2024-10-03T06:48:47.607Z [info]: Commit Tag: $GIT_SHA 
+2024-10-03T06:48:47.923Z [info]: Starting Overseerr version 1.9.2 
+2024-10-03T06:48:48.775Z [info][Notifications]: Registered notification agents 
+2024-10-03T06:48:48.779Z [info][Server]: Skipping starting the scheduled jobs as we have no Plex/Jellyfin/Emby servers setup yet 
+2024-10-03T06:48:48.782Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":1,"enabled":true,"isBuiltIn":true,"order":0}}
+2024-10-03T06:48:48.791Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":2,"enabled":true,"isBuiltIn":true,"order":1}}
+2024-10-03T06:48:48.799Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":3,"enabled":true,"isBuiltIn":true,"order":2}}
+2024-10-03T06:48:48.805Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":4,"enabled":true,"isBuiltIn":true,"order":3}}
+2024-10-03T06:48:48.814Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":5,"enabled":true,"isBuiltIn":true,"order":4}}
+2024-10-03T06:48:48.820Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":6,"enabled":true,"isBuiltIn":true,"order":5}}
+2024-10-03T06:48:48.827Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":7,"enabled":true,"isBuiltIn":true,"order":6}}
+2024-10-03T06:48:48.831Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":8,"enabled":true,"isBuiltIn":true,"order":7}}
+2024-10-03T06:48:48.834Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":9,"enabled":true,"isBuiltIn":true,"order":8}}
+2024-10-03T06:48:48.840Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":10,"enabled":true,"isBuiltIn":true,"order":9}}
+2024-10-03T06:48:48.846Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":11,"enabled":true,"isBuiltIn":true,"order":10}}
+2024-10-03T06:48:48.850Z [info][Discover Slider]: Creating built-in discovery slider {"slider":{"type":12,"enabled":true,"isBuiltIn":true,"order":11}}
+2024-10-03T06:48:48.954Z [info][Server]: Server ready on port 5055 
+2024-10-03T06:51:49.660Z [info]: Commit Tag: $GIT_SHA 
+2024-10-03T06:51:49.897Z [info]: Starting Overseerr version 1.9.2 
+2024-10-03T06:51:50.437Z [info][Notifications]: Registered notification agents 
+2024-10-03T06:51:50.439Z [info][Server]: Skipping starting the scheduled jobs as we have no Plex/Jellyfin/Emby servers setup yet 
+2024-10-03T06:51:50.507Z [info][Server]: Server ready on port 5055 
