@@ -53,7 +53,7 @@ services:
     volumes:
       - /mnt/ark/mediarr/radarr:/config
     ports:
-      - 8989:8989
+      - 7878:7878
     restart: unless-stopped
 
   wireguard:
