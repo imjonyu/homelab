@@ -42,5 +42,29 @@ services:
       - /mnt/ark/mediarr/sonarr:/config
     ports:
       - 8989:8989
+    depends_on:
+      - wireguard
     restart: unless-stopped
 
+  radarr: 
+    image: lscr.io/linuxserver/radarr:latest
+    <<: *mediarr-container
+    container_name: radarr
+    volumes:
+      - /mnt/ark/mediarr/radarr:/config
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    <<: *default-container
+    container_name: wireguard
+    volumes:
+      - /mnt/ark/mediarr/wireguard:/config/wg_confs
+    #ports:
+    #  - 51820:51820/udp
+    #cap_add:
+    # - NET_ADMIN
+    #  - SYS_MODULE
+    #environment:
