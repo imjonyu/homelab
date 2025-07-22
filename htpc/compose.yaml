@@ -1,6 +1,4 @@
 ---
-version: '3.8'
-
 x-default-container: &default-container
   user: 704170789:133610176
   group_add: 
@@ -18,8 +16,7 @@ x-mediarr-container: &mediarr-container
     - mediarr
   volumes: 
     - mediarr-data:/data/mediarr/
-    - mediarr-data/downloads/:/data/downloads/
-
+    - mediarr-downloads:/data/downloads/
 networks: 
   mediarr: 
     driver: bridge
@@ -30,19 +27,20 @@ volumes:
       type: none
       o: bind
       device: /mnt/ark/mediarr/
+  mediarr-downloads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ark/mediar/downloads/
 services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     <<: *mediarr-container
     container_name: sonarr
-    #environment:
-    #  - PUID=1000
-    #  - PGID=1000
-    #  - TZ=EDT/UTC
-    #volumes:
-    #  - /mnt/ark/mediarr/sonarr:/data/config
-    #  - /mnt/ark/mediarr/tv-shows:/data/tv-shows
-    #  - /mnt/ark/mediarr/downloads:/data/downloads
+    volumes:
+      - /mnt/ark/mediarr/sonarr:/config
     ports:
       - 8989:8989
     restart: unless-stopped
+
