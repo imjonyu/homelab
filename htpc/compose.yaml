@@ -26,7 +26,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /mnt/ark/mediar/downloads/
+      device: /mnt/ark/mediarr/downloads/
 services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -91,6 +91,8 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-info} 
       - LOG_HTML=${LOG_HTML:-false} 
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none} 
+    ports:
+    - 8191:8191
 
   qbittorrent: 
     <<: *mediarr-container
