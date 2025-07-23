@@ -1,8 +1,8 @@
 ---
 x-default-container: &default-container
-  user: 704170789:133610176
+  #user: 1000:1000
   group_add: 
-    - "109"
+    - "1000"
   environment:
     - PUID=1000 
     - PGID=1000 
@@ -12,14 +12,9 @@ x-default-container: &default-container
   # containers on the mediarr nework, also have access to specific volumes
 x-mediarr-container: &mediarr-container
   <<: *default-container
-  networks:
-    - mediarr
   volumes: 
     - mediarr-data:/data/mediarr/
     - mediarr-downloads:/data/downloads/
-networks: 
-  mediarr: 
-    driver: bridge
 volumes:
   mediarr-data:
     driver: local
@@ -42,8 +37,6 @@ services:
       - /mnt/ark/mediarr/sonarr:/config
     ports:
       - 8989:8989
-    depends_on:
-      - wireguard
     restart: unless-stopped
 
   radarr: 
@@ -56,12 +49,12 @@ services:
       - 7878:7878
     restart: unless-stopped
 
-  wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
-    <<: *default-container
-    container_name: wireguard
-    volumes:
-      - /mnt/ark/mediarr/wireguard:/config/wg_confs
+  #wireguard:
+   # image: lscr.io/linuxserver/wireguard:latest
+   # <<: *default-container
+   # container_name: wireguard
+   # volumes:
+   #   - /mnt/ark/mediarr/wireguard:/config/wg_confs
     #ports:
     #  - 51820:51820/udp
     #cap_add:
