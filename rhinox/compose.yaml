@@ -59,8 +59,8 @@ services:
     <<: *mediarr-container
     container_name: jellyfin
     volumes:
-      - mediarr-data/jellyfin/config:/config
-      - mediarr-data/jellyfin/cache:/cache
+      - /mnt/ark/mediarr/jellyfin/config:/config
+      - /mnt/ark/mediarr/jellyfin/cache:/cache
       - mediarr-tvshows:/mnt/tv-shows/
       - mediarr-movies:/mnt/movies/
     ports:
