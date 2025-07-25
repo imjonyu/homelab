@@ -11,9 +11,11 @@ x-default-container: &default-container
 
 x-mediarr-container: &mediarr-container
   <<: *default-container
-  volumes:
-    - mediarr-data:/mnt/mediarr/
-    - mediarr-downloads:/data/downloads/
+  volumes: 
+    - mediarr-data:/data/mediarr/
+    - mediarr-downloads:/mnt/downloads/
+    - mediarr-tvshows:/mnt/tv-shows/
+    - mediarr-movies:/mnt/movies/
 volumes:
   mediarr-data:
     driver: local
@@ -27,16 +29,55 @@ volumes:
       type: none
       o: bind
       device: /mnt/ark/mediarr/downloads/
+  mediarr-tvshows:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ark/mediarr/tv-shows/
+  mediarr-movies:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ark/mediarr/movies/
+  open-webui:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ai/open-webui/
+  ollama:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ai/ollama/
 services:
   jellyfin:
     image: ghcr.io/jellyfin/jellyfin
     <<: *mediarr-container
     container_name: jellyfin
     volumes:
-      - /mnt/ark/mediarr/jellyfin/config:/config
-      - /mnt/ark/mediarr/jellyfin/cache:/cache
-      - /mnt/ark/mediarr/tv-shows:/mnt/tv-shows
+      - mediarr-data/jellyfin/config:/config
+      - mediarr-data/jellyfin/cache:/cache
+      - mediarr-tvshows:/mnt/tv-shows/
+      - mediarr-movies:/mnt/movies/
     ports:
       - 8096:8096
 #    environment: 
 #      - JELLYFIN_PublishedServerUrl="http://exmaple.com"
+
+  ollama:
+    image: ghcr.io/ollama/ollama
+    container_name: ollama
+    volumes:
+      - mediarr-data/ollama:/app/data
+    ports:
+      - 11434:11434
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data

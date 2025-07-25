@@ -13,7 +13,9 @@ x-mediarr-container: &mediarr-container
   <<: *default-container
   volumes: 
     - mediarr-data:/data/mediarr/
-    - mediarr-downloads:/data/downloads/
+    - mediarr-downloads:/mnt/downloads/
+    - mediarr-tvshows:/mnt/tv-shows/
+    - mediarr-movies:/mnt/movies/
 volumes:
   mediarr-data:
     driver: local
@@ -27,13 +29,28 @@ volumes:
       type: none
       o: bind
       device: /mnt/ark/mediarr/downloads/
+  mediarr-tvshows:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ark/mediarr/tv-shows/
+  mediarr-movies:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/ark/mediarr/movies/
 services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     <<: *mediarr-container
     container_name: sonarr
     volumes:
-      - /mnt/ark/mediarr/sonarr:/config
+      - mediarr-data/sonarr:/config
+      - mediarr-downloads:/mnt/downloads
+      - mediarr-tvshows:/mnt/tv-shows/
+      - mediarr-movies:/mnt/movies/
     ports:
       - 8989:8989
 
@@ -42,7 +59,10 @@ services:
     <<: *mediarr-container
     container_name: radarr
     volumes:
-      - /mnt/ark/mediarr/radarr:/config
+      - mediarr-data/radarr:/config
+      - mediarr-downloads:/mnt/downloads
+      - mediarr-tvshows:/mnt/tv-shows/
+      - mediarr-movies:/mnt/movies/
     ports:
       - 7878:7878
   
@@ -52,7 +72,10 @@ services:
     container_name: bazarr 
     hostname: bazarr 
     volumes: 
-      - /mnt/ark/mediarr/bazarr:/config 
+      - mediarr-data/bazarr:/config 
+      - mediarr-downloads:/mnt/downloads
+      - mediarr-tvshows:/mnt/tv-shows/
+      - mediarr-movies:/mnt/movies/
     ports: 
       - 6767:6767
     depends_on: 
@@ -67,7 +90,8 @@ services:
     ports: 
       - 5055:5055 
     volumes: 
-      - /mnt/ark/mediarr/jellyseerr:/app/config 
+      - mediarr-data/jellyseerr:/app/config
+      - mediarr-downloads:/downloads 
     depends_on: 
       - sonarr 
       - radarr
@@ -78,7 +102,7 @@ services:
     container_name: prowlarr 
     hostname: prowlarr 
     volumes: 
-      - /mnt/ark/mediarr/prowlarr:/config 
+      - mediarr-data/prowlarr:/config 
     ports: 
       - 9696:9696
   
@@ -102,7 +126,8 @@ services:
     environment:
       - WEBUI_PORT=8080 
     volumes: 
-      - /mnt/ark/mediarr/qbittorrent:/config
+      - mediarr-data/qbittorrent:/config
+      - mediarr-downloads:/downloads
     ports: 
       - 8080:8080 
       - 6881:6881 
