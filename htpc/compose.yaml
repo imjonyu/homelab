@@ -1,8 +1,9 @@
 ---
+version: '3.8'
 x-default-container: &default-container
   #user: 1000:1000
-  group_add: 
-    - "1000"
+  #group_add: 
+  #  - "1000"
   environment:
     - PUID=1000 
     - PGID=1000 
@@ -14,6 +15,16 @@ x-mediarr-container: &mediarr-container
   volumes: 
     - mediarr-data:/data/mediarr/
     - mediarr-downloads:/data/downloads/
+  labels:
+    - "traefik.enable=true"
+    #- "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${SERVICE_NAME}.localhost`)"
+    #- "traefik.http.routers.${SERVICE_NAME}.entrypoints=web"
+#  networks:
+#    - autobots-network-overlay
+networks:
+  autobots-network-overlay:
+    name: autobots-network-overlay
+    external: true
 volumes:
   mediarr-data:
     driver: local
@@ -34,18 +45,34 @@ services:
     container_name: sonarr
     volumes:
       - /mnt/ark/mediarr/sonarr:/config
+      - /mnt/ark/mediarr/downloads:/mnt/downloads
+      - /mnt/ark/mediarr/tv-shows:/mnt/tv-shows
+      - /mnt/ark/mediarr/movies:/mnt/movies
     ports:
       - 8989:8989
-
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.sonarr.rule=Host(`sonarr.imjonyu.ca`)"
+        - "traefik.http.routers.sonarr.entrypoints=web"
+        - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
   radarr: 
     image: lscr.io/linuxserver/radarr:latest
     <<: *mediarr-container
     container_name: radarr
     volumes:
       - /mnt/ark/mediarr/radarr:/config
+      - /mnt/ark/mediarr/downloads:/mnt/downloads
+      - /mnt/ark/mediarr/tv-shows:/mnt/tv-shows
+      - /mnt/ark/mediarr/movies:/mnt/movies
     ports:
       - 7878:7878
-  
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.radarr.rule=Host(`radarr.imjonyu.ca`)"
+        - "traefik.http.routers.radarr.entrypoints=web"
+        - "traefik.http.services.radarr.loadbalancer.server.port=7878"  
   bazarr: 
     <<: *mediarr-container
     image: lscr.io/linuxserver/bazarr:latest 
@@ -53,6 +80,9 @@ services:
     hostname: bazarr 
     volumes: 
       - /mnt/ark/mediarr/bazarr:/config 
+      - /mnt/ark/mediarr/downloads:/mnt/downloads
+      - /mnt/ark/mediarr/tv-shows:/mnt/tv-shows
+      - /mnt/ark/mediarr/movies:/mnt/movies
     ports: 
       - 6767:6767
     depends_on: 
@@ -64,13 +94,25 @@ services:
     image: fallenbagel/jellyseerr:latest 
     container_name: jellyseerr 
     hostname: jellyseerr 
-    ports: 
-      - 5055:5055 
+#    ports: 
+  #    - 5055:5055 
+#      - target: 5055
+#        published: 5055
+#        protocol: tcp
+#        mode: host
     volumes: 
       - /mnt/ark/mediarr/jellyseerr:/app/config 
     depends_on: 
       - sonarr 
       - radarr
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jellyseer.rule=Host(`catalog.imjonyu.ca`)"
+        - "traefik.http.routers.jellyseer.entrypoints=web"
+        - "traefik.http.services.jellyseer.loadbalancer.server.port=5055"
+    networks:
+      - autobots-network-overlay
   
   prowlarr: 
     <<: *mediarr-container
@@ -103,7 +145,107 @@ services:
       - WEBUI_PORT=8080 
     volumes: 
       - /mnt/ark/mediarr/qbittorrent:/config
+      - /mnt/ark/mediarr/downloads:/mnt/downloads
+      - /mnt/ark/mediarr/tv-shows:/mnt/tv-shows
+      - /mnt/ark/mediarr/movies:/mnt/movies
     ports: 
       - 8080:8080 
       - 6881:6881 
       - 6881:6881/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.torrent.rule=Host(`torrent.imjonyu.ca`)"
+      - "traefik.http.routers.torrent.entrypoints=web"
+      - "traefik.http.services.torrent.loadbalancer.server.port=8080"
+
+  jellyfin:
+    image: ghcr.io/jellyfin/jellyfin
+    <<: *mediarr-container
+    container_name: jellyfin
+    volumes:
+      - /mnt/ark/mediarr/jellyfin/config:/config
+      - /mnt/ark/mediarr/jellyfin/cache:/cache
+      - /mnt/ark/mediarr/tv-shows/:/mnt/tv-shows/
+      - /mnt/ark/mediarr/movies/:/mnt/movies/
+#    ports:
+#      - 8096:8096
+#      - target: 8096
+#        published: 8096
+#        protocol: tcp
+#        mode: host
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.imjonyu.ca`)"
+      - "traefik.http.routers.jellyfin.entrypoints=web"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+
+#    runtime: nvidia
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.imjonyu.ca`)"
+        - "traefik.http.routers.jellyfin.entrypoints=web"
+        - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      resources:
+        reservations:
+          generic_resources:
+            - discrete_resource_spec:
+                kind: "gpu"
+                value: 1
+      placement:
+        constraints:
+          - node.labels.gpu == true  # Pin to nodes with a custom label 
+#    deploy:
+#      labels:
+#        # Enable Service discovery for Traefik
+#        - "traefik.enable=true"
+#        # Define the WHoami router rule
+#        - "traefik.http.routers.whoami.rule=Host(`whoami.swarm.localhost`)"
+#        # Expose Whoami on the HTTPS entrypoint
+#        - "traefik.http.routers.whoami.entrypoints=web"
+#        # Enable TLS
+#        #- "traefik.http.routers.whoami.tls=true"
+##        # Expose the whoami port number to Traefik
+#        - traefik.http.services.whoami.loadbalancer.server.port=80
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+ #     - "--providers.docker=true"
+ #    - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+      - "--providers.swarm=true"
+#      - "--providers.docker.endpoint=tcp://192.168.0.18:8123"
+  # Enable the Docker Swarm provider (instead of Docker provider)
+      - "--providers.swarm.endpoint=unix:///var/run/docker.sock"
+
+      # Watch for Swarm service changes (requires socket access)
+      - "--providers.swarm.watch=true"
+
+      # Recommended: Don't expose services by default; require explicit labels
+      - "--providers.swarm.exposedbydefault=false"
+
+      # Specify the default network for Traefik to connect to services
+      - "--providers.swarm.network=traefik_autobots_overlay_network"
+
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+      - "80:80"
+ #     - "8081:8080"
+      - target: 8080
+        published: 8081
+        protocol: tcp
+        mode: host
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - autobots-network-overlay
+
